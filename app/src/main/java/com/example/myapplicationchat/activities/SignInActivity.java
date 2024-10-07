@@ -133,6 +133,6 @@ public class SignInActivity extends AppCompatActivity {
 
         new Handler(Looper.getMainLooper()).postDelayed(() -> {
             notificationManager.cancel(1);
-        }, 3000);
+        }, 15000);
     }
 }

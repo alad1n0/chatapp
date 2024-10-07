@@ -63,8 +63,10 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/imageBack"
         app:layout_constraintEnd_toStartOf="@+id/imageInfo"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/imageBack"
-        app:layout_constraintTop_toTopOf="@+id/imageBack" />
+        app:layout_constraintTop_toTopOf="@+id/imageBack"
+        app:layout_constraintVertical_bias="0.0" />
 
     <View
         android:id="@+id/viewSupporter"
@@ -74,17 +76,41 @@
         app:layout_constraintTop_toBottomOf="@+id/imageBack" />
 
     <TextView
-        android:id="@+id/textAvailability"
-        android:layout_width="match_parent"
+        android:id="@+id/textOnline"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/viewSupporter"
-        android:background="#008000"
-        android:textSize="@dimen/_10ssp"
-        android:textColor="@color/white"
-        android:padding="@dimen/_2sdp"
-        android:text="@string/online"
-        android:translationZ="1pt"
+        android:layout_marginTop="@dimen/_4sdp"
+        android:paddingStart="@dimen/_10sdp"
+        android:paddingEnd="@dimen/_10sdp"
+        android:paddingBottom="@dimen/_1sdp"
+        android:paddingTop="@dimen/_1sdp"
+        android:background="@drawable/background_user_online"
         android:gravity="center"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_10ssp"
+        android:translationZ="1pt"
+        app:layout_constraintTop_toBottomOf="@+id/textName"
+        app:layout_constraintEnd_toStartOf="@+id/imageInfo"
+        app:layout_constraintStart_toEndOf="@+id/imageBack"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/textLastSeen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_4sdp"
+        android:background="@drawable/background_user_ofline"
+        android:gravity="center"
+        android:paddingStart="@dimen/_10sdp"
+        android:paddingEnd="@dimen/_10sdp"
+        android:paddingBottom="@dimen/_1sdp"
+        android:paddingTop="@dimen/_1sdp"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_10ssp"
+        android:translationZ="1pt"
+        app:layout_constraintTop_toBottomOf="@+id/textName"
+        app:layout_constraintEnd_toStartOf="@+id/imageInfo"
+        app:layout_constraintStart_toEndOf="@+id/imageBack"
         android:visibility="gone" />
 
     <androidx.recyclerview.widget.RecyclerView
@@ -105,6 +131,8 @@
         android:id="@+id/progressBar"
         android:layout_width="@dimen/_25sdp"
         android:layout_height="@dimen/_25sdp"
+        android:indeterminateTint="@color/primary"
+        android:indeterminateTintMode="src_in"
         app:layout_constraintBottom_toBottomOf="@id/viewBackground"
         app:layout_constraintEnd_toEndOf="@id/viewBackground"
         app:layout_constraintStart_toStartOf="@+id/viewBackground"

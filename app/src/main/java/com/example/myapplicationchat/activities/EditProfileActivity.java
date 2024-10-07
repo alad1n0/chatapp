@@ -102,6 +102,6 @@ public class EditProfileActivity extends BaseActivity {
 
         new Handler(Looper.getMainLooper()).postDelayed(() -> {
             notificationManager.cancel(1);
-        }, 3000);
+        }, 15000);
     }
 }

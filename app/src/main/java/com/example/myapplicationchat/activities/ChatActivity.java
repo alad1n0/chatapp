@@ -1,10 +1,12 @@
 package com.example.myapplicationchat.activities;
 
+import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Base64;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.myapplicationchat.adapters.ChatAdapter;
 import com.example.myapplicationchat.databinding.ActivityChatBinding;
@@ -64,14 +66,23 @@ public class ChatActivity extends BaseActivity {
     }
 
     private void sendMessage() {
+        String inputMessage = binding.inputMessage.getText().toString().trim();
+
+        if (inputMessage.isEmpty()) {
+            showToast("Please enter a message");
+            return;
+        }
+
         HashMap<String, Object> message = new HashMap<>();
         message.put(Constants.KEY_SENDER_ID, preferenceManager.getString(Constants.KEY_USER_ID));
         message.put(Constants.KEY_RECEIVER_ID, receiverUser.id);
-        message.put(Constants.KEY_MESSAGE, binding.inputMessage.getText().toString());
+        message.put(Constants.KEY_MESSAGE, inputMessage);
         message.put(Constants.KEY_TIMESTAMP, new Date());
+
         database.collection(Constants.KEY_COLLECTION_CHAT).add(message);
+
         if (conversionId != null) {
-            updateConversion(binding.inputMessage.getText().toString());
+            updateConversion(inputMessage);
         } else {
             HashMap<String, Object> conversion = new HashMap<>();
             conversion.put(Constants.KEY_SENDER_ID, preferenceManager.getString(Constants.KEY_USER_ID));
@@ -80,35 +91,67 @@ public class ChatActivity extends BaseActivity {
             conversion.put(Constants.KEY_RECEIVER_ID, receiverUser.id);
             conversion.put(Constants.KEY_RECEIVER_NAME, receiverUser.name);
             conversion.put(Constants.KEY_RECEIVER_IMAGE, receiverUser.image);
-            conversion.put(Constants.KEY_LAST_MESSAGE, binding.inputMessage.getText().toString());
+            conversion.put(Constants.KEY_LAST_MESSAGE, inputMessage);
             conversion.put(Constants.KEY_TIMESTAMP, new Date());
             addConversion(conversion);
         }
+
         binding.inputMessage.setText(null);
     }
 
+    private void showToast(String message) {
+        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+    }
+
+    @SuppressLint("SetTextI18n")
     private void listenAvailabilityOfReceiver() {
-        database.collection(Constants.KEY_COLLECTION_USERS).document(
-                receiverUser.id
-        ).addSnapshotListener(ChatActivity.this, (value, error) -> {
-           if (error != null) {
-               return;
-           }
-           if (value != null) {
-               if (value.getLong(Constants.KEY_AVAILABILITY) != null) {
-                   int availability = Objects.requireNonNull(
-                           value.getLong(Constants.KEY_AVAILABILITY)
-                   ).intValue();
-                   isReceiverAvailable = availability == 1;
-               }
-               receiverUser.token = value.getString(Constants.KEY_FCM_TOKEN);
-           }
-           if (isReceiverAvailable) {
-               binding.textAvailability.setVisibility(View.VISIBLE);
-           } else {
-               binding.textAvailability.setVisibility(View.GONE);
-           }
-        });
+        database.collection(Constants.KEY_COLLECTION_USERS).document(receiverUser.id)
+                .addSnapshotListener(ChatActivity.this, (value, error) -> {
+                    if (error != null) {
+                        return;
+                    }
+                    if (value != null) {
+                        if (value.getLong(Constants.KEY_AVAILABILITY) != null) {
+                            int availability = Objects.requireNonNull(
+                                    value.getLong(Constants.KEY_AVAILABILITY)
+                            ).intValue();
+                            isReceiverAvailable = availability == 1;
+                        }
+
+                        if (value.getDate(Constants.KEY_LAST_SEEN) != null) {
+                            Date lastSeen = value.getDate(Constants.KEY_LAST_SEEN);
+                            if (!isReceiverAvailable) {
+                                binding.textLastSeen.setText("Last seen " + getTimeAgo(Objects.requireNonNull(lastSeen)));
+                                binding.textLastSeen.setVisibility(View.VISIBLE);
+                                binding.textOnline.setVisibility(View.GONE);
+                            } else {
+                                binding.textOnline.setText("Online");
+                                binding.textOnline.setVisibility(View.VISIBLE);
+                                binding.textLastSeen.setVisibility(View.GONE);
+                            }
+                        }
+                    }
+                });
+    }
+
+    private String getTimeAgo(Date lastSeenDate) {
+        long timeNow = System.currentTimeMillis();
+        long timeLastSeen = lastSeenDate.getTime();
+        long timeDifference = timeNow - timeLastSeen;
+
+        long minutes = timeDifference / (1000 * 60);
+        long hours = timeDifference / (1000 * 60 * 60);
+        long days = timeDifference / (1000 * 60 * 60 * 24);
+
+        if (minutes < 1) {
+            return "just";
+        } else if (minutes < 60) {
+            return minutes + " minutes ago";
+        } else if (hours < 24) {
+            return hours + " hours ago";
+        } else {
+            return days + " days ago";
+        }
     }
 
     private void listenMessages() {
@@ -170,7 +213,7 @@ public class ChatActivity extends BaseActivity {
     }
 
     private String gatReadableDateTime(Date date) {
-        return new SimpleDateFormat("MMMM dd, yyyy - hh:mm a", Locale.getDefault()).format(date);
+        return new SimpleDateFormat("MMMM dd, yyyy - hh:mm a", Locale.ENGLISH).format(date);
     }
 
     private void addConversion(HashMap<String, Object> conversion) {
