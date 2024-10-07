@@ -46,6 +46,7 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+    implementation ("androidx.core:core:1.6.0")
 
     // Scaleble Size Unit (support for different screen sizes)
     implementation(libs.sdp.android)
