@@ -1,11 +1,20 @@
 package com.example.myapplicationchat.activities;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.core.app.NotificationCompat;
+
+import com.example.myapplicationchat.R;
 import com.example.myapplicationchat.databinding.ActivityEditProfileBinding;
 import com.example.myapplicationchat.models.User;
 import com.example.myapplicationchat.utilities.Constants;
@@ -65,8 +74,37 @@ public class EditProfileActivity extends BaseActivity {
                     showToast("Profile updated");
                     preferenceManager.putString(Constants.KEY_NAME, newName);
                     preferenceManager.putString(Constants.KEY_EMAIL, newEmail);
+                    showNotification("Profile Updated", "Your profile has been updated successfully.");
                     finish();
                 })
                 .addOnFailureListener(e -> showToast("Failed to update profile"));
+    }
+
+    private void showNotification(String title, String message) {
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        String channelId = "profile_update_channel";
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel(
+                    channelId,
+                    "Profile Updates",
+                    NotificationManager.IMPORTANCE_DEFAULT
+            );
+            channel.setDescription("Notifications for profile updates");
+            notificationManager.createNotificationChannel(channel);
+        }
+
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, channelId)
+                .setSmallIcon(R.drawable.ic_profile)
+                .setContentTitle(title)
+                .setContentText(message)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setAutoCancel(true);
+
+        notificationManager.notify(1, notificationBuilder.build());
+
+        new Handler(Looper.getMainLooper()).postDelayed(() -> {
+            notificationManager.cancel(1);
+        }, 3000);
     }
 }
