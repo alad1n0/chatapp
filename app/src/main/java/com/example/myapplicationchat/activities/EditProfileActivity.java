@@ -1,9 +1,6 @@
 package com.example.myapplicationchat.activities;
 
 import android.os.Bundle;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.myapplicationchat.databinding.ActivityEditProfileBinding;
