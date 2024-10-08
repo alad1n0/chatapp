@@ -61,4 +61,7 @@ dependencies {
     // Retrofit
     implementation(libs.retrofit)
     implementation(libs.converter.scalars)
+
+    // Material Design
+    implementation(libs.material.v130alpha03)
 }

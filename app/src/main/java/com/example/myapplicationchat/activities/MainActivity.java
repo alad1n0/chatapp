@@ -18,14 +18,12 @@ import com.example.myapplicationchat.utilities.PreferenceManager;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 
 public class MainActivity extends BaseActivity implements ConversionListener {
@@ -57,15 +55,20 @@ public class MainActivity extends BaseActivity implements ConversionListener {
     }
 
     private void setListeners() {
-        binding.imageSignOut.setOnClickListener(v -> signOut());
         binding.fabNewChat.setOnClickListener(v ->
                 startActivity(new Intent(getApplicationContext(), UserActivity.class)));
         binding.imageProfile.setOnClickListener(v ->
-                startActivity(new Intent(getApplicationContext(), EditProfileActivity.class)));
+                startActivity(new Intent(getApplicationContext(), ProfileActivity.class)));
     }
 
     private void loadUserDetails() {
         binding.textName.setText(preferenceManager.getString(Constants.KEY_NAME));
+        String email = preferenceManager.getString(Constants.KEY_EMAIL);
+        if (email != null) {
+            binding.textEmail.setText(email);
+        } else {
+            showToast("Email not found");
+        }
         byte[] bytes = Base64.decode(preferenceManager.getString(Constants.KEY_IMAGE), Base64.DEFAULT);
         Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
         binding.imageProfile.setImageBitmap(bitmap);
@@ -140,24 +143,6 @@ public class MainActivity extends BaseActivity implements ConversionListener {
                 );
         documentReference.update(Constants.KEY_FCM_TOKEN, token)
                 .addOnFailureListener(e -> showToast("Unable to update token"));
-    }
-
-    private void signOut() {
-        showToast("Sign out...");
-        FirebaseFirestore database = FirebaseFirestore.getInstance();
-        DocumentReference documentReference =
-                database.collection(Constants.KEY_COLLECTION_USERS).document(
-                        preferenceManager.getString(Constants.KEY_USER_ID)
-                );
-        HashMap<String, Object> updates = new HashMap<>();
-        updates.put(Constants.KEY_FCM_TOKEN, FieldValue.delete());
-        documentReference.update(updates)
-                .addOnSuccessListener(unused -> {
-                    preferenceManager.clear();
-                    startActivity(new Intent(getApplicationContext(), SignInActivity.class));
-                    finish();
-                })
-                .addOnFailureListener(e -> showToast("Unable to sign out"));
     }
 
     @Override
