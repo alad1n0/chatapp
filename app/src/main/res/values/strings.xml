@@ -37,4 +37,7 @@
     <string name="swit_messenger_is_a_modern_messaging_app_that_allows_users_to_communicate_with_friends_and_family_in_real_time_thanks_to_a_simple_interface_and_a_variety_of_functions_messenger_becomes_an_ideal_tool_for_maintaining_communication">SWIT Messenger is a modern messaging app that allows users to communicate with friends and family in real time. Thanks to a simple interface and a variety of functions, Messenger becomes an ideal tool for maintaining communication.</string>
     <string name="go_back">Go Back</string>
     <string name="save_changes">Save Changes</string>
+    <string name="messenger_setings">Messenger Setings</string>
+    <string name="notifications">Notifications</string>
+    <string name="don_t_miss_the_new_features_that_have_become_available">Don\'t miss the new features that have become available!</string>
 </resources>

@@ -184,7 +184,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="35dp"
                 android:layout_marginEnd="10dp"
                 android:background="@drawable/button_selector"
                 android:clickable="true"
@@ -196,8 +196,8 @@
 
                 <ImageView
                     android:id="@+id/StImage1"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
                     android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="5dp"
@@ -213,7 +213,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
                     android:layout_marginEnd="15dp"
-                    android:layout_marginBottom="0dp"
                     android:layout_toEndOf="@+id/StImage1"
                     android:gravity="start"
                     android:text="@string/Lbl_Rate_Us"
@@ -225,7 +224,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="25dp"
                     android:layout_marginEnd="15dp"
                     android:layout_marginBottom="0dp"
                     android:layout_toEndOf="@+id/StImage1"
@@ -252,8 +251,8 @@
 
                 <ImageView
                     android:id="@+id/StImage2"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
                     android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="5dp"
@@ -281,7 +280,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="25dp"
                     android:layout_marginEnd="15dp"
                     android:layout_marginBottom="0dp"
                     android:layout_toEndOf="@+id/StImage2"
@@ -308,8 +307,8 @@
 
                 <ImageView
                     android:id="@+id/StImage3"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
                     android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="5dp"
@@ -337,7 +336,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="25dp"
                     android:layout_marginEnd="15dp"
                     android:layout_marginBottom="0dp"
                     android:layout_toEndOf="@+id/StImage3"
@@ -349,7 +348,7 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/StFourthLayout"
+                android:id="@+id/userLogout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/helpLayout"
@@ -363,122 +362,9 @@
                 android:padding="5dp">
 
                 <ImageView
-                    android:id="@+id/StImage31"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_alignParentStart="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginTop="0dp"
-                    android:layout_marginEnd="10dp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/ic_system_update"
-                    app:tint="@color/primary"
-                    tools:ignore="ContentDescription" />
-
-                <TextView
-                    android:id="@+id/St_31"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginEnd="15dp"
-                    android:layout_marginBottom="0dp"
-                    android:layout_toEndOf="@+id/StImage31"
-                    android:gravity="start"
-                    android:text="@string/Lbl_Update"
-                    android:textColor="#444"
-                    android:textSize="14sp" />
-
-                <TextView
-                    android:id="@+id/d_31"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginEnd="15dp"
-                    android:layout_marginBottom="0dp"
-                    android:layout_toEndOf="@+id/StImage31"
-                    android:gravity="start"
-                    android:text="@string/Lbl_Version_update"
-                    android:textColor="#777"
-                    android:textSize="14sp" />
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/StFifthLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/StFourthLayout"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginEnd="10dp"
-                android:background="@drawable/button_selector"
-                android:clickable="true"
-                android:focusable="true"
-                android:gravity="center_vertical"
-                android:padding="5dp">
-
-                <ImageView
-                    android:id="@+id/StImage32"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_alignParentStart="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginTop="0dp"
-                    android:layout_marginEnd="10dp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/ic_privacy"
-                    tools:ignore="ContentDescription" />
-
-                <TextView
-                    android:id="@+id/St_32"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginEnd="15dp"
-                    android:layout_marginBottom="0dp"
-                    android:layout_toEndOf="@+id/StImage32"
-                    android:gravity="start"
-                    android:text="@string/Lbl_Privacy"
-                    android:textColor="#444"
-                    android:textSize="14sp" />
-
-                <TextView
-                    android:id="@+id/d_32"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginEnd="15dp"
-                    android:layout_marginBottom="0dp"
-                    android:layout_toEndOf="@+id/StImage32"
-                    android:gravity="start"
-                    android:text="@string/Lbl_privacy_policy"
-                    android:textColor="#777"
-                    android:textSize="14sp" />
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/userLogout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/StFifthLayout"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginEnd="10dp"
-                android:background="@drawable/button_selector"
-                android:clickable="true"
-                android:focusable="true"
-                android:gravity="center_vertical"
-                android:padding="5dp">
-
-                <ImageView
                     android:id="@+id/StImage33"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
                     android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="5dp"
@@ -506,7 +392,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="25dp"
                     android:layout_marginEnd="15dp"
                     android:layout_marginBottom="0dp"
                     android:layout_toEndOf="@+id/StImage33"

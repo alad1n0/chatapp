@@ -65,8 +65,6 @@ public class MainActivity extends BaseActivity implements ConversionListener {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        startActivity(new Intent(getApplicationContext(), MainActivity.class));
-        binding.bottomNavigationView.setSelectedItemId(R.id.navigation_home);
     }
 
     private void setListeners() {
