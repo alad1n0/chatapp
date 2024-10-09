@@ -3,6 +3,7 @@ agp = "8.6.0"
 circlebutton = "1.1"
 circleimageview = "3.1.0"
 core = "1.6.0"
+emojiGoogle = "0.7.0"
 googleAuthLibraryOauth2Http = "1.13.0"
 googleServices = "4.4.2"
 junit = "4.13.2"
@@ -27,6 +28,7 @@ circlebutton = { module = "com.github.markushi:circlebutton", version.ref = "cir
 circleimageview = { module = "de.hdodenhof:circleimageview", version.ref = "circleimageview" }
 converter-scalars = { module = "com.squareup.retrofit2:converter-scalars", version.ref = "retrofit" }
 core = { module = "androidx.core:core", version.ref = "core" }
+emoji-google = { module = "com.vanniktech:emoji-google", version.ref = "emojiGoogle" }
 google-auth-library-credentials = { module = "com.google.auth:google-auth-library-credentials", version.ref = "googleAuthLibraryOauth2Http" }
 google-auth-library-oauth2-http = { module = "com.google.auth:google-auth-library-oauth2-http", version.ref = "googleAuthLibraryOauth2Http" }
 google-services = { module = "com.google.gms:google-services", version.ref = "googleServices" }
