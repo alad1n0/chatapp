@@ -77,12 +77,12 @@
             android:layout_below="@+id/imageLayout">
 
             <ImageButton
-                android:id="@+id/BoostButton"
+                android:id="@+id/aboutButton"
                 android:layout_marginTop="34dp"
                 android:layout_width="65dp"
                 android:layout_height="65dp"
                 android:layout_centerHorizontal="true"
-                android:elevation="5dp"
+                android:elevation="8dp"
                 android:background="@drawable/rounded_button_background"
                 android:src="@drawable/ic_about"
                 android:layout_marginEnd="10dp"
@@ -90,7 +90,7 @@
                 tools:ignore="ContentDescription" />
 
             <TextView
-                android:layout_below="@+id/BoostButton"
+                android:layout_below="@+id/aboutButton"
                 android:id="@+id/tv_Boost"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -107,7 +107,7 @@
                 android:layout_marginStart="65dp"
                 android:layout_marginEnd="10dp"
                 android:layout_marginTop="10dp"
-                android:layout_toEndOf="@+id/BoostButton"
+                android:layout_toEndOf="@+id/aboutButton"
                 android:focusable="true"
                 android:gravity="center"
                 android:layout_width="wrap_content"
@@ -117,7 +117,7 @@
                     android:id="@+id/EditButton"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
-                    android:elevation="5dp"
+                    android:elevation="8dp"
                     android:background="@drawable/rounded_button_background"
                     android:src="@drawable/ic_edit_profile"
                     android:contentDescription="@null"
@@ -151,7 +151,7 @@
                     android:id="@+id/SettingsButton"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
-                    android:elevation="5dp"
+                    android:elevation="8dp"
                     android:background="@drawable/rounded_button_background"
                     android:src="@drawable/ic_settings"
                     android:contentDescription="@null"

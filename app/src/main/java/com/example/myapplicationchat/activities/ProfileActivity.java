@@ -3,6 +3,8 @@ package com.example.myapplicationchat.activities;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.os.Bundle;
 import android.util.Base64;
 import android.widget.Toast;
@@ -43,13 +45,24 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void setListeners() {
-        binding.fabNewChat.setOnClickListener(v ->
-                startActivity(new Intent(getApplicationContext(), UserActivity.class)));
+        final Animation clickAnimation = AnimationUtils.loadAnimation(this, R.anim.button_click_animation);
+
+        binding.fabNewChat.setOnClickListener(v ->{
+            v.startAnimation(clickAnimation);
+            startActivity(new Intent(getApplicationContext(), UserActivity.class));
+        });
+
+        binding.aboutButton.setOnClickListener(v -> {
+            v.startAnimation(clickAnimation);
+            startActivity(new Intent(getApplicationContext(), AboutActivity.class));
+        });
+
+        binding.EditButton.setOnClickListener(v -> {
+            v.startAnimation(clickAnimation);
+            startActivity(new Intent(getApplicationContext(), EditProfileActivity.class));
+        });
 
         binding.userLogout.setOnClickListener(v -> signOut());
-
-        binding.EditButton.setOnClickListener(v ->
-                startActivity(new Intent(getApplicationContext(), EditProfileActivity.class)));
 
         binding.bottomNavigationView.setOnItemSelectedListener(item -> {
             if (item.getItemId() == R.id.navigation_home) {

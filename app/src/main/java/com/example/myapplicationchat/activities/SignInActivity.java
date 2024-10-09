@@ -22,6 +22,8 @@ import com.example.myapplicationchat.utilities.PreferenceManager;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.Objects;
+
 public class SignInActivity extends AppCompatActivity {
 
     private ActivitySignInBinding binding;
@@ -56,8 +58,8 @@ public class SignInActivity extends AppCompatActivity {
         loading(true);
         FirebaseFirestore database = FirebaseFirestore.getInstance();
         database.collection(Constants.KEY_COLLECTION_USERS)
-                .whereEqualTo(Constants.KEY_EMAIL, binding.inputEmail.getText().toString())
-                .whereEqualTo(Constants.KEY_PASSWORD, binding.inputPassword.getText().toString())
+                .whereEqualTo(Constants.KEY_EMAIL, Objects.requireNonNull(binding.etEmail.getText()).toString())
+                .whereEqualTo(Constants.KEY_PASSWORD, Objects.requireNonNull(binding.etPassword.getText()).toString())
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful() && task.getResult() != null && !task.getResult().getDocuments().isEmpty()) {
@@ -95,13 +97,13 @@ public class SignInActivity extends AppCompatActivity {
     }
 
     private Boolean isValidSignInDetails() {
-        if (binding.inputEmail.getText().toString().trim().isEmpty()) {
+        if (Objects.requireNonNull(binding.etEmail.getText()).toString().trim().isEmpty()) {
             showToast("Enter email");
             return false;
-        } else if (!Patterns.EMAIL_ADDRESS.matcher(binding.inputEmail.getText().toString()).matches()) {
+        } else if (!Patterns.EMAIL_ADDRESS.matcher(binding.etEmail.getText().toString()).matches()) {
             showToast("Enter valid email");
             return false;
-        } else if (binding.inputPassword.getText().toString().trim().isEmpty()) {
+        } else if (Objects.requireNonNull(binding.etPassword.getText()).toString().trim().isEmpty()) {
             showToast("Enter password");
             return false;
         } else {

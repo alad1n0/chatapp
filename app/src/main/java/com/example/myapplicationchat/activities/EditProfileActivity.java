@@ -3,10 +3,14 @@ package com.example.myapplicationchat.activities;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Base64;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.core.app.NotificationCompat;
@@ -17,6 +21,8 @@ import com.example.myapplicationchat.models.User;
 import com.example.myapplicationchat.utilities.Constants;
 import com.example.myapplicationchat.utilities.PreferenceManager;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.Objects;
 
 public class EditProfileActivity extends BaseActivity {
 
@@ -41,8 +47,14 @@ public class EditProfileActivity extends BaseActivity {
     }
 
     private void loadUserDetails() {
-        binding.editTextName.setText(preferenceManager.getString(Constants.KEY_NAME));
-        binding.editTextEmail.setText(preferenceManager.getString(Constants.KEY_EMAIL));
+        byte[] bytes = Base64.decode(preferenceManager.getString(Constants.KEY_IMAGE), Base64.DEFAULT);
+        Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+        binding.imageProfile.setImageBitmap(bitmap);
+        binding.imageBack.setOnClickListener(v -> onBackPressed());
+        binding.textGoBack.setOnClickListener(v -> onBackPressed());
+        binding.username.setText(preferenceManager.getString(Constants.KEY_NAME));
+        binding.etName.setText(preferenceManager.getString(Constants.KEY_NAME));
+        binding.etEmail.setText(preferenceManager.getString(Constants.KEY_EMAIL));
     }
 
     private void setListeners() {
@@ -50,8 +62,10 @@ public class EditProfileActivity extends BaseActivity {
     }
 
     private void saveUserProfile() {
-        String newName = binding.editTextName.getText().toString().trim();
-        String newEmail = binding.editTextEmail.getText().toString().trim();
+        loading(true);
+
+        String newName = Objects.requireNonNull(binding.etName.getText()).toString().trim();
+        String newEmail = Objects.requireNonNull(binding.etEmail.getText()).toString().trim();
 
         if (newName.isEmpty() || newEmail.isEmpty()) {
             showToast("Please fill all fields");
@@ -75,6 +89,16 @@ public class EditProfileActivity extends BaseActivity {
                     finish();
                 })
                 .addOnFailureListener(e -> showToast("Failed to update profile"));
+    }
+
+    private void loading(Boolean idLoading) {
+        if (idLoading) {
+            binding.buttonSave.setVisibility(View.INVISIBLE);
+            binding.progressBar.setVisibility(View.VISIBLE);
+        } else {
+            binding.progressBar.setVisibility(View.INVISIBLE);
+            binding.buttonSave.setVisibility(View.VISIBLE);
+        }
     }
 
     private void showNotification(String title, String message) {
