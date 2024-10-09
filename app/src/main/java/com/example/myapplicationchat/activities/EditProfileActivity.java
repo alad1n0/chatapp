@@ -26,6 +26,7 @@ import com.example.myapplicationchat.R;
 import com.example.myapplicationchat.databinding.ActivityEditProfileBinding;
 import com.example.myapplicationchat.utilities.Constants;
 import com.example.myapplicationchat.utilities.PreferenceManager;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.ByteArrayOutputStream;
@@ -140,6 +141,7 @@ public class EditProfileActivity extends BaseActivity {
                     preferenceManager.putString(Constants.KEY_NAME, newName);
                     preferenceManager.putString(Constants.KEY_EMAIL, newEmail);
                     preferenceManager.putString(Constants.KEY_IMAGE, encodedImage);
+                    updateSenderImageInConversions(encodedImage);
                     showNotification("Profile Updated", "Your profile has been updated successfully.");
                     loading(false);
                     finish();
@@ -148,6 +150,21 @@ public class EditProfileActivity extends BaseActivity {
                     showToast("Failed to update profile");
                     loading(false);
                 });
+    }
+
+    private void updateSenderImageInConversions(String newImage) {
+        FirebaseFirestore database = FirebaseFirestore.getInstance();
+        String userId = preferenceManager.getString(Constants.KEY_USER_ID);
+
+        database.collection(Constants.KEY_COLLECTION_CONVERSATIONS)
+                .whereEqualTo(Constants.KEY_SENDER_ID, userId)
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
+                        document.getReference().update(Constants.KEY_SENDER_IMAGE, newImage);
+                    }
+                })
+                .addOnFailureListener(e -> showToast("Failed to update sender image in conversations"));
     }
 
     private void loading(Boolean idLoading) {

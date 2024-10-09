@@ -11,6 +11,7 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.os.Bundle;
@@ -27,6 +28,7 @@ import com.example.myapplicationchat.databinding.ActivityProfileBinding;
 import com.example.myapplicationchat.utilities.Constants;
 import com.example.myapplicationchat.utilities.PreferenceManager;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -35,7 +37,6 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -148,11 +149,25 @@ public class ProfileActivity extends AppCompatActivity {
                 .addOnSuccessListener(unused -> {
                     showToast("Profile updated");
                     preferenceManager.putString(Constants.KEY_IMAGE, encodedImage);
+                    updateSenderImageInConversions(encodedImage);
                     showNotification("Profile Updated", "Your profile has been updated successfully.");
                 })
-                .addOnFailureListener(e -> {
-                    showToast("Failed to update profile");
-                });
+                .addOnFailureListener(e -> showToast("Failed to update profile"));
+    }
+
+    private void updateSenderImageInConversions(String newImage) {
+        FirebaseFirestore database = FirebaseFirestore.getInstance();
+        String userId = preferenceManager.getString(Constants.KEY_USER_ID);
+
+        database.collection(Constants.KEY_COLLECTION_CONVERSATIONS)
+                .whereEqualTo(Constants.KEY_SENDER_ID, userId)
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
+                        document.getReference().update(Constants.KEY_SENDER_IMAGE, newImage);
+                    }
+                })
+                .addOnFailureListener(e -> showToast("Failed to update sender image in conversations"));
     }
 
     private void loadUserDetails() {
