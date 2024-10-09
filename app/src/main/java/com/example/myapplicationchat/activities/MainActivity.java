@@ -5,9 +5,11 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Base64;
+import android.view.Menu;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.myapplicationchat.R;
 import com.example.myapplicationchat.adapters.RecentConversationsAdapter;
 import com.example.myapplicationchat.databinding.ActivityMainBinding;
 import com.example.myapplicationchat.listeners.ConversionListener;
@@ -47,6 +49,12 @@ public class MainActivity extends BaseActivity implements ConversionListener {
         listenConversations();
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.bottom_menu, menu);
+        return true;
+    }
+
     private void init() {
         conversations = new ArrayList<>();
         conversationsAdapter = new RecentConversationsAdapter(conversations, this);
@@ -57,8 +65,25 @@ public class MainActivity extends BaseActivity implements ConversionListener {
     private void setListeners() {
         binding.fabNewChat.setOnClickListener(v ->
                 startActivity(new Intent(getApplicationContext(), UserActivity.class)));
+
         binding.imageProfile.setOnClickListener(v ->
                 startActivity(new Intent(getApplicationContext(), ProfileActivity.class)));
+
+        binding.bottomNavigationView.setOnItemSelectedListener(item -> {
+            if (item.getItemId() == R.id.navigation_home) {
+                return true;
+            } else if (item.getItemId() == R.id.settings) {
+                startActivity(new Intent(getApplicationContext(), SettingsActivity.class));
+                return true;
+            } else if (item.getItemId() == R.id.about) {
+                startActivity(new Intent(getApplicationContext(), AboutActivity.class));
+                return true;
+            } else if (item.getItemId() == R.id.profile) {
+                startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
+                return true;
+            }
+            return false;
+        });
     }
 
     private void loadUserDetails() {

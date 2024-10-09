@@ -8,6 +8,8 @@ import android.util.Base64;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.myapplicationchat.R;
 import com.example.myapplicationchat.databinding.ActivityProfileBinding;
 import com.example.myapplicationchat.utilities.Constants;
 import com.example.myapplicationchat.utilities.PreferenceManager;
@@ -28,15 +30,32 @@ public class ProfileActivity extends AppCompatActivity {
         binding = ActivityProfileBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         preferenceManager = new PreferenceManager(getApplicationContext());
+        binding.bottomNavigationView.setSelectedItemId(R.id.profile);
         loadUserDetails();
         setListeners();
     }
 
     private void setListeners() {
-        binding.imageBack.setOnClickListener(v -> onBackPressed());
+        binding.fabNewChat.setOnClickListener(v ->
+                startActivity(new Intent(getApplicationContext(), UserActivity.class)));
+
         binding.userLogout.setOnClickListener(v -> signOut());
+
         binding.EditButton.setOnClickListener(v ->
                 startActivity(new Intent(getApplicationContext(), EditProfileActivity.class)));
+
+        binding.bottomNavigationView.setOnItemSelectedListener(item -> {
+            if (item.getItemId() == R.id.navigation_home) {
+                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                return true;
+            } else if (item.getItemId() == R.id.settings) {
+                startActivity(new Intent(getApplicationContext(), SettingsActivity.class));
+                return true;
+            } else if (item.getItemId() == R.id.about) {
+                startActivity(new Intent(getApplicationContext(), AboutActivity.class));
+                return true;
+            } else return item.getItemId() == R.id.profile;
+        });
     }
 
     private void loadUserDetails() {
