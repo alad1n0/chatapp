@@ -22,6 +22,13 @@ public class AboutActivity extends AppCompatActivity {
         setListeners();
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+        binding.bottomNavigationView.setSelectedItemId(R.id.navigation_home);
+    }
+
     private void setListeners() {
         binding.siteWebButton.setOnClickListener(v -> {
             String url = "https://siteweb.org.ua/";
