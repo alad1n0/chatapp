@@ -1,31 +1,59 @@
 package com.example.myapplicationchat.activities;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
+
 import com.example.myapplicationchat.R;
+import com.example.myapplicationchat.databinding.ActivityAboutBinding;
 
 public class AboutActivity extends AppCompatActivity {
+
+    private ActivityAboutBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_about);
+        binding = ActivityAboutBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+        binding.bottomNavigationView.setSelectedItemId(R.id.about);
+        setListeners();
+    }
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+        binding.bottomNavigationView.setSelectedItemId(R.id.navigation_home);
+    }
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-
-        getSupportActionBar().setTitle("About");
-
-        toolbar.setNavigationOnClickListener(v -> {
-            Intent intent = new Intent(AboutActivity.this, MainActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+    private void setListeners() {
+        binding.siteWebButton.setOnClickListener(v -> {
+            String url = "https://siteweb.org.ua/";
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse(url));
             startActivity(intent);
-            finish();
+        });
+
+        binding.fabNewChat.setOnClickListener(v ->
+                startActivity(new Intent(getApplicationContext(), UserActivity.class)));
+
+        binding.bottomNavigationView.setOnItemSelectedListener(item -> {
+            if (item.getItemId() == R.id.navigation_home) {
+                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                return true;
+            } else if (item.getItemId() == R.id.settings) {
+                startActivity(new Intent(getApplicationContext(), SettingsActivity.class));
+                return true;
+            } else if (item.getItemId() == R.id.about) {
+                return true;
+            } else if (item.getItemId() == R.id.profile) {
+                startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
+                return true;
+            }
+            return false;
         });
     }
 }

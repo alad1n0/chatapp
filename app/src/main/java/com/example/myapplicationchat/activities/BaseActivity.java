@@ -10,6 +10,8 @@ import com.example.myapplicationchat.utilities.PreferenceManager;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.Date;
+
 public class BaseActivity extends AppCompatActivity {
 
     private DocumentReference documentReference;
@@ -27,6 +29,7 @@ public class BaseActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         documentReference.update(Constants.KEY_AVAILABILITY, 0);
+        documentReference.update(Constants.KEY_LAST_SEEN, new Date());
     }
 
     @Override

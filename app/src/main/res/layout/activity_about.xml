@@ -1,84 +1,237 @@
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="#f5f5f5">
+    android:fillViewport="true"
+    android:fitsSystemWindows="true"
+    android:background="#ffff"
+    tools:context=".activities.ProfileActivity"
+    android:layout_height="match_parent">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        android:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+        android:layout_height="match_parent">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="16dp">
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="500dp"
+            android:background="@drawable/half_circle" />
 
-        <LinearLayout
+        <ImageView
+            android:id="@+id/imageLayout"
+            android:paddingTop="3dp"
+            android:layout_marginTop="80dp"
+            android:layout_centerHorizontal="true"
+            android:layout_width="@dimen/_184sdp"
+            android:layout_height="@dimen/_64sdp"
+            android:background="@drawable/background_about"
+            android:gravity="center"
+            tools:ignore="ContentDescription">
+        </ImageView>
+
+        <RelativeLayout
+            android:id="@+id/circleLayouts"
+            android:layout_marginTop="30dp"
+            android:layout_centerInParent="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center">
+            android:layout_below="@+id/imageLayout">
 
-            <ImageView
-                android:id="@+id/imageLogo"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
-                android:src=""
-                android:layout_gravity="center"
-                android:layout_marginBottom="24dp"
-                android:background="@drawable/circle_background"
-                android:padding="12dp"/>
-
-            <TextView
-                android:id="@+id/textAppName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="MyApplicationChat"
-                android:textSize="28sp"
-                android:textStyle="bold"
-                android:textColor="#3F51B5"
-                android:layout_marginBottom="16dp"
-                android:gravity="center"/>
+            <ImageButton
+                android:id="@+id/BoostButton"
+                android:layout_marginTop="34dp"
+                android:layout_width="65dp"
+                android:layout_height="65dp"
+                android:layout_centerHorizontal="true"
+                android:elevation="5dp"
+                android:background="@drawable/rounded_button_background"
+                android:src="@drawable/ic_about"
+                android:layout_marginEnd="10dp"
+                android:contentDescription="@null"
+                tools:ignore="ContentDescription" />
 
             <TextView
-                android:id="@+id/textAppDescription"
+                android:layout_below="@+id/BoostButton"
+                android:id="@+id/tv_Boost"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="MyApplicationChat is a simple, reliable, and user-friendly chat application designed to help you stay connected with your friends, family, and colleagues. Whether you're messaging one-on-one or in groups, MyApplicationChat ensures your conversations are secure and private. Built with end-to-end encryption, it guarantees that only you and the person you're communicating with can read your messages."
-                android:textSize="16sp"
-                android:textColor="#000000"
-                android:layout_marginBottom="16dp"
+                android:text="@string/about_company"
+                android:textColor="#444"
                 android:gravity="center"
-                android:padding="8dp"
-                android:background="@drawable/text_background"/>
+                android:layout_marginTop="3dp"
+                android:layout_centerHorizontal="true"
+                android:textSize="12sp" />
 
-            <TextView
-                android:id="@+id/textAppFeatures"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:background="@drawable/text_background"
+            <RelativeLayout
+                android:id="@+id/editProfileButtonLayout"
+                android:clickable="true"
+                android:layout_marginStart="65dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_toEndOf="@+id/BoostButton"
+                android:focusable="true"
                 android:gravity="center"
-                android:padding="8dp"
-                android:text="Key Features:\n- Instant messaging with real-time notifications.\n- Group chats with up to 50 participants.\n- Share images, videos, and files effortlessly.\n- Secure end-to-end encryption for all conversations.\n- Customize your profile with an avatar and status message.\n- Available on multiple platforms with seamless synchronization."
-                android:textColor="#000000"
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@+id/textAppVersion"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Version: 1.0.0"
-                android:textSize="14sp"
-                android:textColor="#777777"
-                android:layout_marginTop="24dp"
-                android:gravity="center"/>
+                android:layout_height="wrap_content">
 
-        </LinearLayout>
-    </ScrollView>
-</LinearLayout>
+                <ImageButton
+                    android:id="@+id/EditButton"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:elevation="5dp"
+                    android:background="@drawable/rounded_button_background"
+                    android:src="@drawable/ic_contacts"
+                    android:contentDescription="@null"
+                    tools:ignore="ContentDescription" />
+
+                <TextView
+                    android:layout_below="@+id/EditButton"
+                    android:id="@+id/tv_Edit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/contacts"
+                    android:textAlignment="center"
+                    android:textColor="#444"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginStart="6dp"
+                    android:textSize="12sp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/settingButtonLayout"
+                android:clickable="true"
+                android:focusable="true"
+                android:layout_marginEnd="65dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="30dp"
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageButton
+                    android:id="@+id/siteWebButton"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:elevation="5dp"
+                    android:background="@drawable/rounded_button_background"
+                    android:src="@drawable/ic_web_site"
+                    android:contentDescription="@null"
+                    tools:ignore="ContentDescription" />
+
+                <TextView
+                    android:layout_below="@+id/siteWebButton"
+                    android:id="@+id/settingsTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/visit_site"
+                    android:textColor="#444"
+                    android:layout_marginStart="6dp"
+                    android:textAlignment="center"
+                    android:layout_marginTop="3dp"
+                    android:textSize="12sp" />
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_stars"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/circleLayouts">
+
+            <RelativeLayout
+                android:id="@+id/StFirstLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/button_selector"
+                android:clickable="true"
+                android:focusable="true"
+                android:padding="5dp"
+                tools:ignore="UselessParent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/St_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginEnd="15dp"
+                        android:layout_marginBottom="0dp"
+                        android:textStyle="bold"
+                        android:text="@string/about_swit_messenger"
+                        android:textColor="#444"
+                        android:textSize="24sp" />
+
+                    <TextView
+                        android:id="@+id/d_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginTop="20dp"
+                        android:textAlignment="center"
+                        android:layout_marginEnd="15dp"
+                        android:layout_marginBottom="0dp"
+                        android:text="@string/swit_messenger_is_a_modern_messaging_app_that_allows_users_to_communicate_with_friends_and_family_in_real_time_thanks_to_a_simple_interface_and_a_variety_of_functions_messenger_becomes_an_ideal_tool_for_maintaining_communication"
+                        android:textColor="#444"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:id="@+id/coordinatorLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.bottomappbar.BottomAppBar
+                android:id="@+id/bottomAppBar"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:layout_gravity="bottom"
+                android:background="@color/white"
+                app:backgroundTint="@color/white"
+                app:fabCradleMargin="10dp"
+                app:fabCradleRoundedCornerRadius="50dp">
+
+                <com.google.android.material.bottomnavigation.BottomNavigationView
+                    android:id="@+id/bottomNavigationView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="55dp"
+                    android:layout_marginEnd="20dp"
+                    android:background="@android:color/transparent"
+                    app:backgroundTint="@android:color/transparent"
+                    app:elevation="0dp"
+                    app:itemRippleColor="@android:color/transparent"
+                    app:menu="@menu/bottom_menu" />
+
+            </com.google.android.material.bottomappbar.BottomAppBar>
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fabNewChat"
+                android:layout_width="wrap_content"
+                android:layout_height="55dp"
+                android:backgroundTint="@color/primary"
+                android:src="@drawable/ic_add"
+                app:layout_anchor="@id/bottomAppBar"
+                app:maxImageSize="40dp"
+                app:tint="@color/white"
+                tools:ignore="ContentDescription" />
+
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    </RelativeLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

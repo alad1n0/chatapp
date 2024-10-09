@@ -7,9 +7,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.core.app.NotificationCompat;
@@ -105,6 +102,6 @@ public class EditProfileActivity extends BaseActivity {
 
         new Handler(Looper.getMainLooper()).postDelayed(() -> {
             notificationManager.cancel(1);
-        }, 3000);
+        }, 15000);
     }
 }
