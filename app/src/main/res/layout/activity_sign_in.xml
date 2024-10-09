@@ -51,8 +51,7 @@
                 android:id="@+id/etEmail"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
-                android:textSize="15sp"
-                android:textStyle="bold"
+                android:textSize="@dimen/_13ssp"
                 android:inputType="textEmailAddress"
                 android:textColor="@color/primary_text"
                 tools:ignore="TouchTargetSizeCheck" />
@@ -68,6 +67,7 @@
             android:hint="@string/password"
             android:textColorHint="@color/primary_dark"
             app:boxStrokeColor="#EAEAEE"
+            app:endIconMode="password_toggle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -76,8 +76,7 @@
                 android:id="@+id/etPassword"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
-                android:textSize="15sp"
-                android:textStyle="bold"
+                android:textSize="@dimen/_13ssp"
                 android:inputType="textPassword"
                 android:textColor="@color/primary_text"
                 tools:ignore="TouchTargetSizeCheck" />
@@ -98,7 +97,7 @@
                 android:textColor="@color/white"
                 android:textSize="@dimen/_13ssp"
                 android:textStyle="bold"
-                app:cornerRadius="@dimen/_8sdp" />
+                app:cornerRadius="@dimen/_3sdp"  />
             
             <ProgressBar
                 android:id="@+id/progressBar"

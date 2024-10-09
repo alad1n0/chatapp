@@ -126,8 +126,7 @@
                         android:id="@+id/etName"
                         android:layout_width="match_parent"
                         android:layout_height="55dp"
-                        android:textSize="15sp"
-                        android:textStyle="bold"
+                        android:textSize="@dimen/_13ssp"
                         android:inputType="text"
                         android:textColor="@color/primary_text"
                         tools:ignore="TouchTargetSizeCheck" />
@@ -153,8 +152,7 @@
                         android:id="@+id/etEmail"
                         android:layout_width="match_parent"
                         android:layout_height="55dp"
-                        android:textSize="15sp"
-                        android:textStyle="bold"
+                        android:textSize="@dimen/_13ssp"
                         android:inputType="textEmailAddress"
                         android:textColor="@color/primary_text"
                         tools:ignore="TouchTargetSizeCheck" />
@@ -177,7 +175,7 @@
                         android:textColor="@color/white"
                         android:textSize="@dimen/_13ssp"
                         android:textStyle="bold"
-                        app:cornerRadius="@dimen/_8sdp" />
+                        app:cornerRadius="@dimen/_3sdp" />
 
                     <ProgressBar
                         android:id="@+id/progressBar"

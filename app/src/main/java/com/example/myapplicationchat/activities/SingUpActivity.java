@@ -32,6 +32,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.Objects;
 
 public class SingUpActivity extends AppCompatActivity {
 
@@ -72,9 +73,9 @@ public class SingUpActivity extends AppCompatActivity {
         loading(true);
         FirebaseFirestore database = FirebaseFirestore.getInstance();
         HashMap<String, Object> user = new HashMap<>();
-        user.put(Constants.KEY_NAME, binding.inputName.getText().toString());
-        user.put(Constants.KEY_EMAIL, binding.inputEmail.getText().toString());
-        user.put(Constants.KEY_PASSWORD, binding.inputPassword.getText().toString());
+        user.put(Constants.KEY_NAME, Objects.requireNonNull(binding.etName.getText()).toString());
+        user.put(Constants.KEY_EMAIL, Objects.requireNonNull(binding.etEmail.getText()).toString());
+        user.put(Constants.KEY_PASSWORD, Objects.requireNonNull(binding.etPassword.getText()).toString());
         user.put(Constants.KEY_IMAGE, encodedImage);
 
         database.collection(Constants.KEY_COLLECTION_USERS)
@@ -83,11 +84,11 @@ public class SingUpActivity extends AppCompatActivity {
                     loading(false);
                     preferenceManager.putBoolean(Constants.KEY_IS_SIGNED_IN, true);
                     preferenceManager.putString(Constants.KEY_USER_ID, documentReference.getId());
-                    preferenceManager.putString(Constants.KEY_NAME, binding.inputName.getText().toString());
-                    preferenceManager.putString(Constants.KEY_EMAIL, binding.inputEmail.getText().toString());
+                    preferenceManager.putString(Constants.KEY_NAME, binding.etName.getText().toString());
+                    preferenceManager.putString(Constants.KEY_EMAIL, binding.etEmail.getText().toString());
                     preferenceManager.putString(Constants.KEY_IMAGE, encodedImage);
 
-                    showNotification("Registration Successful", "Welcome, " + binding.inputName.getText().toString() + "!");
+                    showNotification("Registration Successful", "Welcome, " + binding.etName.getText().toString() + "!");
 
                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -133,22 +134,22 @@ public class SingUpActivity extends AppCompatActivity {
         if (encodedImage == null) {
             showToast("Select profile image");
             return false;
-        } else if (binding.inputName.getText().toString().trim().isEmpty()) {
+        } else if (Objects.requireNonNull(binding.etName.getText()).toString().trim().isEmpty()) {
             showToast("Enter name");
             return false;
-        } else if (binding.inputEmail.getText().toString().trim().isEmpty()) {
+        } else if (Objects.requireNonNull(binding.etEmail.getText()).toString().trim().isEmpty()) {
             showToast("Enter email");
             return false;
-        } else if (!Patterns.EMAIL_ADDRESS.matcher(binding.inputEmail.getText().toString()).matches()) {
+        } else if (!Patterns.EMAIL_ADDRESS.matcher(binding.etEmail.getText().toString()).matches()) {
             showToast("Enter valid email");
             return false;
-        } else if (binding.inputPassword.getText().toString().trim().isEmpty()) {
+        } else if (Objects.requireNonNull(binding.etPassword.getText()).toString().trim().isEmpty()) {
             showToast("Enter password");
             return false;
-        } else if (binding.inputConfirmPassword.getText().toString().trim().isEmpty()) {
+        } else if (Objects.requireNonNull(binding.etConfirmPassword.getText()).toString().trim().isEmpty()) {
             showToast("Enter confirm password");
             return false;
-        } else if (!binding.inputPassword.getText().toString().equals(binding.inputConfirmPassword.getText().toString())) {
+        } else if (!binding.etPassword.getText().toString().equals(binding.etConfirmPassword.getText().toString())) {
             showToast("Password & confirm password does not match");
             return false;
         } else {

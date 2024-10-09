@@ -3,32 +3,43 @@ package com.example.myapplicationchat.activities;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.provider.MediaStore;
 import android.util.Base64;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.core.app.NotificationCompat;
 
 import com.example.myapplicationchat.R;
 import com.example.myapplicationchat.databinding.ActivityEditProfileBinding;
-import com.example.myapplicationchat.models.User;
 import com.example.myapplicationchat.utilities.Constants;
 import com.example.myapplicationchat.utilities.PreferenceManager;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 public class EditProfileActivity extends BaseActivity {
 
     private ActivityEditProfileBinding binding;
     private PreferenceManager preferenceManager;
-    private User currentUser;
+    private String encodedImage;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -57,8 +68,46 @@ public class EditProfileActivity extends BaseActivity {
         binding.etEmail.setText(preferenceManager.getString(Constants.KEY_EMAIL));
     }
 
+    private String encodeImage(Bitmap bitmap) {
+        int previewWidth = 150;
+        int previewHeight = bitmap.getHeight() * previewWidth / bitmap.getWidth();
+        Bitmap previewBitmap = Bitmap.createScaledBitmap(bitmap, previewWidth, previewHeight, false);
+        ByteArrayOutputStream byteArrayInputStream = new ByteArrayOutputStream();
+        previewBitmap.compress(Bitmap.CompressFormat.JPEG, 50, byteArrayInputStream);
+        byte[] bytesImage = byteArrayInputStream.toByteArray();
+        return Base64.encodeToString(bytesImage, Base64.DEFAULT);
+    }
+
+    private final ActivityResultLauncher<Intent> pickImage = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == RESULT_OK) {
+                    if (result.getData() != null) {
+                        Uri imageUri = result.getData().getData();
+                        try {
+                            InputStream inputStream = getContentResolver().openInputStream(imageUri);
+                            Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+                            binding.imageProfile.setImageBitmap(bitmap);
+                            encodedImage = encodeImage(bitmap);
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+    );
+
     private void setListeners() {
+        final Animation clickAnimation = AnimationUtils.loadAnimation(this, R.anim.button_click_animation);
+
         binding.buttonSave.setOnClickListener(v -> saveUserProfile());
+
+        binding.editImageButton.setOnClickListener(v -> {
+            Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            v.startAnimation(clickAnimation);
+            pickImage.launch(intent);
+        });
     }
 
     private void saveUserProfile() {
@@ -75,20 +124,30 @@ public class EditProfileActivity extends BaseActivity {
         FirebaseFirestore database = FirebaseFirestore.getInstance();
         String userId = preferenceManager.getString(Constants.KEY_USER_ID);
 
+        Map<String, Object> updates = new HashMap<>();
+        updates.put(Constants.KEY_NAME, newName);
+        updates.put(Constants.KEY_EMAIL, newEmail);
+
+        if (encodedImage != null) {
+            updates.put(Constants.KEY_IMAGE, encodedImage);
+        }
+
         database.collection(Constants.KEY_COLLECTION_USERS)
                 .document(userId)
-                .update(
-                        Constants.KEY_NAME, newName,
-                        Constants.KEY_EMAIL, newEmail
-                )
+                .update(updates)
                 .addOnSuccessListener(unused -> {
                     showToast("Profile updated");
                     preferenceManager.putString(Constants.KEY_NAME, newName);
                     preferenceManager.putString(Constants.KEY_EMAIL, newEmail);
+                    preferenceManager.putString(Constants.KEY_IMAGE, encodedImage);
                     showNotification("Profile Updated", "Your profile has been updated successfully.");
+                    loading(false);
                     finish();
                 })
-                .addOnFailureListener(e -> showToast("Failed to update profile"));
+                .addOnFailureListener(e -> {
+                    showToast("Failed to update profile");
+                    loading(false);
+                });
     }
 
     private void loading(Boolean idLoading) {
