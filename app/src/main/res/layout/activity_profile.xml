@@ -151,6 +151,7 @@
                     android:id="@+id/SettingsButton"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
+                    android:layout_centerHorizontal="true"
                     android:elevation="8dp"
                     android:background="@drawable/rounded_button_background"
                     android:src="@drawable/ic_settings"

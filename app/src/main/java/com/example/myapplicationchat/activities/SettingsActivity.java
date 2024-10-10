@@ -32,6 +32,9 @@ public class SettingsActivity extends AppCompatActivity {
         binding.fabNewChat.setOnClickListener(v ->
                 startActivity(new Intent(getApplicationContext(), UserActivity.class)));
 
+        binding.StFifthLayout.setOnClickListener(v ->
+                startActivity(new Intent(getApplicationContext(), PrivatePolicyActivity.class)));
+
         binding.bottomNavigationView.setOnItemSelectedListener(item -> {
             if (item.getItemId() == R.id.navigation_home) {
                 startActivity(new Intent(getApplicationContext(), MainActivity.class));

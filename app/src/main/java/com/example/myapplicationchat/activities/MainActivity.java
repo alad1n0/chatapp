@@ -1,5 +1,7 @@
 package com.example.myapplicationchat.activities;
 
+import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -63,8 +65,9 @@ public class MainActivity extends BaseActivity implements ConversionListener {
     }
 
     @Override
+    @SuppressLint("MissingSuperCall")
     public void onBackPressed() {
-        super.onBackPressed();
+        finishAffinity();
     }
 
     private void setListeners() {

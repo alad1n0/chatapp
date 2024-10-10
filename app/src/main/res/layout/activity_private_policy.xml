@@ -1,22 +1,49 @@
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:background="#f5f5f5">
+    android:background="@color/white">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
+    <View
+        android:id="@+id/headerBackground"
         android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:background="@drawable/background_content_top"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/imageBack"
+        android:layout_width="@dimen/_30sdp"
+        android:layout_height="@dimen/_30sdp"
+        android:layout_marginStart="@dimen/_16sdp"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:padding="@dimen/_5sdp"
+        android:src="@drawable/ic_back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:tint="@color/white" />
+
+    <TextView
+        android:id="@+id/headerText"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        android:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+        android:layout_gravity="center"
+        android:text="@string/privacy_policy"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:textSize="@dimen/_14ssp"
+        app:layout_constraintBottom_toBottomOf="@+id/headerBackground"
+        app:layout_constraintEnd_toEndOf="@+id/headerBackground"
+        app:layout_constraintStart_toStartOf="@+id/headerBackground"
+        app:layout_constraintTop_toTopOf="@+id/headerBackground" />
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="16dp">
+        android:padding="22dp"
+        android:layout_marginTop="86dp"
+        android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -24,81 +51,71 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/textPrivacyPolicyTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Privacy Policy"
-                android:textSize="28sp"
-                android:textStyle="bold"
-                android:textColor="#3F51B5"
-                android:gravity="center"
-                android:layout_gravity="center"
-                android:layout_marginBottom="24dp"/>
-
-            <TextView
                 android:id="@+id/textPrivacyPolicyContent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="At MyApplicationChat, we value your privacy. This Privacy Policy outlines how we collect, use, and protect your personal information when you use our application. We ensure that all personal data is handled with the utmost care and respect for your privacy."
-                android:textSize="16sp"
-                android:textColor="#000000"
                 android:layout_marginBottom="16dp"
                 android:background="@drawable/text_background"
-                android:padding="12dp"/>
+                android:padding="12dp"
+                android:text="@string/at_myapplicationchat_we_value_your_privacy_this_privacy_policy_outlines_how_we_collect_use_and_protect_your_personal_information_when_you_use_our_application_we_ensure_that_all_personal_data_is_handled_with_the_utmost_care_and_respect_for_your_privacy"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/textDataCollection"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="1. Data Collection: We collect personal information such as your name, email address, and profile picture when you sign up for our service. We also collect data on your usage of the app, including interactions with other users, shared content, and device information."
-                android:textSize="16sp"
-                android:textColor="#000000"
                 android:layout_marginBottom="16dp"
                 android:background="@drawable/text_background"
-                android:padding="12dp"/>
+                android:padding="12dp"
+                android:text="@string/_1_data_collection_we_collect_personal_information_such_as_your_name_email_address_and_profile_picture_when_you_sign_up_for_our_service_we_also_collect_data_on_your_usage_of_the_app_including_interactions_with_other_users_shared_content_and_device_information"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/textDataUsage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="2. Data Usage: The information we collect is used to provide and improve our service. This includes delivering messages, personalizing your experience, and ensuring security across the platform. We do not share your personal information with third parties, except when required by law."
-                android:textSize="16sp"
-                android:textColor="#000000"
                 android:layout_marginBottom="16dp"
                 android:background="@drawable/text_background"
-                android:padding="12dp"/>
+                android:padding="12dp"
+                android:text="@string/_2_data_usage_the_information_we_collect_is_used_to_provide_and_improve_our_service_this_includes_delivering_messages_personalizing_your_experience_and_ensuring_security_across_the_platform_we_do_not_share_your_personal_information_with_third_parties_except_when_required_by_law"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/textDataProtection"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="3. Data Protection: We use industry-standard security measures to protect your information from unauthorized access, disclosure, alteration, or destruction. We regularly review and update our security practices to keep your data safe."
-                android:textSize="16sp"
-                android:textColor="#000000"
                 android:layout_marginBottom="16dp"
                 android:background="@drawable/text_background"
-                android:padding="12dp"/>
+                android:padding="12dp"
+                android:text="@string/_3_data_protection_we_use_industry_standard_security_measures_to_protect_your_information_from_unauthorized_access_disclosure_alteration_or_destruction_we_regularly_review_and_update_our_security_practices_to_keep_your_data_safe"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/textContact"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="If you have any questions about this Privacy Policy, please contact us at support@myapplicationchat.com."
-                android:textSize="16sp"
-                android:textColor="#000000"
                 android:layout_marginBottom="16dp"
                 android:background="@drawable/text_background"
-                android:padding="12dp"/>
+                android:padding="12dp"
+                android:text="@string/if_you_have_any_questions_about_this_privacy_policy_please_contact_us_at_support_myapplicationchat_com"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+
             <TextView
                 android:id="@+id/textPolicyVersion"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Policy Version: 1.0.0"
-                android:textSize="14sp"
-                android:textColor="#777777"
                 android:layout_marginTop="16dp"
-                android:gravity="center"/>
+                android:gravity="center"
+                android:text="@string/policy_version_1_0_0"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
 
         </LinearLayout>
+
     </ScrollView>
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

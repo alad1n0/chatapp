@@ -16,6 +16,9 @@
         android:theme="@style/Theme.MyApplicationChat"
         tools:targetApi="31">
         <activity
+            android:name=".activities.PrivatePolicyActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.SettingsActivity"
             android:exported="false" />
         <activity

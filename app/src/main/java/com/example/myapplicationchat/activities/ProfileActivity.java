@@ -75,6 +75,11 @@ public class ProfileActivity extends AppCompatActivity {
             startActivity(new Intent(getApplicationContext(), AboutActivity.class));
         });
 
+        binding.SettingsButton.setOnClickListener(v -> {
+            v.startAnimation(clickAnimation);
+            startActivity(new Intent(getApplicationContext(), SettingsActivity.class));
+        });
+
         binding.EditButton.setOnClickListener(v -> {
             v.startAnimation(clickAnimation);
             startActivity(new Intent(getApplicationContext(), EditProfileActivity.class));
