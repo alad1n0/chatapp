@@ -13,6 +13,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.provider.MediaStore;
 import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -156,15 +157,33 @@ public class EditProfileActivity extends BaseActivity {
         FirebaseFirestore database = FirebaseFirestore.getInstance();
         String userId = preferenceManager.getString(Constants.KEY_USER_ID);
 
+        Log.d("TAG", "updateSenderImageInConversions: " + newImage);
+
         database.collection(Constants.KEY_COLLECTION_CONVERSATIONS)
                 .whereEqualTo(Constants.KEY_SENDER_ID, userId)
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
+                    if (queryDocumentSnapshots.isEmpty()) {
+                        Log.d("TAG", "No conversations found for user: " + userId);
+                        return;
+                    }
+
                     for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
-                        document.getReference().update(Constants.KEY_SENDER_IMAGE, newImage);
+                        database.runTransaction(transaction -> {
+                            DocumentSnapshot snapshot = transaction.get(document.getReference());
+                            transaction.update(snapshot.getReference(), Constants.KEY_SENDER_IMAGE, newImage);
+                            return null;
+                        }).addOnSuccessListener(unused -> {
+                            Log.d("TAG", "Sender image updated successfully for document: " + document.getId());
+                        }).addOnFailureListener(e -> {
+                            Log.e("TAG", "Failed to update sender image for document: " + document.getId(), e);
+                        });
                     }
                 })
-                .addOnFailureListener(e -> showToast("Failed to update sender image in conversations"));
+                .addOnFailureListener(e -> {
+                    Log.e("TAG", "Failed to fetch conversations", e);
+                    showToast("Failed to update sender image in conversations");
+                });
     }
 
     private void loading(Boolean idLoading) {

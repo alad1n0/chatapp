@@ -37,9 +37,9 @@ public class SettingsActivity extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(), MainActivity.class));
                 return true;
             } else if (item.getItemId() == R.id.settings) {
-                startActivity(new Intent(getApplicationContext(), SettingsActivity.class));
                 return true;
             } else if (item.getItemId() == R.id.about) {
+                startActivity(new Intent(getApplicationContext(), AboutActivity.class));
                 return true;
             } else if (item.getItemId() == R.id.profile) {
                 startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
