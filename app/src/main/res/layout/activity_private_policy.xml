@@ -32,7 +32,7 @@
         android:text="@string/privacy_policy"
         android:textColor="@color/white"
         android:textStyle="bold"
-        android:textSize="@dimen/_14ssp"
+        android:textSize="@dimen/_16ssp"
         app:layout_constraintBottom_toBottomOf="@+id/headerBackground"
         app:layout_constraintEnd_toEndOf="@+id/headerBackground"
         app:layout_constraintStart_toStartOf="@+id/headerBackground"
