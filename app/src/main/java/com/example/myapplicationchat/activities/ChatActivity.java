@@ -28,7 +28,6 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
-
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -64,6 +63,7 @@ public class ChatActivity extends BaseActivity {
         init();
         listenMessages();
     }
+
     private void selectImage() {
         Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
@@ -86,9 +86,10 @@ public class ChatActivity extends BaseActivity {
             }
         }
     }
+
     private void sendImageMessage(Bitmap bitmap) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 50, baos);
         byte[] data = baos.toByteArray();
 
         StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("images/" + UUID.randomUUID().toString());
@@ -99,6 +100,7 @@ public class ChatActivity extends BaseActivity {
                 }))
                 .addOnFailureListener(e -> Toast.makeText(getApplicationContext(), "Failed to upload image", Toast.LENGTH_SHORT).show());
     }
+
     private void init() {
         preferenceManager = new PreferenceManager(getApplicationContext());
         chatMessage = new ArrayList<>();
@@ -138,8 +140,6 @@ public class ChatActivity extends BaseActivity {
 
         binding.inputMessage.setText(null);
     }
-
-
 
     private void sendMessage() {
         String inputMessage = binding.inputMessage.getText().toString().trim();
