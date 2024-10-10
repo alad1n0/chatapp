@@ -47,6 +47,8 @@ dependencies {
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
     implementation (libs.core)
+    implementation ("com.google.firebase:firebase-storage:20.0.1")
+    implementation ("com.google.firebase:firebase-firestore:24.0.0")
 
     // Scaleble Size Unit (support for different screen sizes)
     implementation(libs.sdp.android)
