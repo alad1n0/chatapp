@@ -22,9 +22,11 @@ import com.example.myapplicationchat.utilities.Constants;
 import com.example.myapplicationchat.utilities.PreferenceManager;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.WriteBatch;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.ArrayList;
@@ -177,6 +179,46 @@ public class MainActivity extends BaseActivity implements ConversionListener {
                 );
         documentReference.update(Constants.KEY_FCM_TOKEN, token)
                 .addOnFailureListener(e -> showToast("Unable to update token"));
+    }
+
+    public void deleteConversation(ChatMessage chatMessage) {
+        database.collection(Constants.KEY_COLLECTION_CONVERSATIONS)
+                .whereEqualTo(Constants.KEY_SENDER_ID, chatMessage.senderId)
+                .whereEqualTo(Constants.KEY_RECEIVER_ID, chatMessage.receiverId)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful() && !task.getResult().isEmpty()) {
+                        List<DocumentSnapshot> documentsToDelete = task.getResult().getDocuments();
+                        WriteBatch batch = database.batch();
+
+                        for (DocumentSnapshot documentSnapshot : documentsToDelete) {
+                            batch.delete(documentSnapshot.getReference());
+                        }
+
+                        database.collection(Constants.KEY_COLLECTION_CHAT)
+                                .whereEqualTo(Constants.KEY_SENDER_ID, chatMessage.senderId)
+                                .whereEqualTo(Constants.KEY_RECEIVER_ID, chatMessage.receiverId)
+                                .get()
+                                .addOnCompleteListener(chatTask -> {
+                                    if (chatTask.isSuccessful() && !chatTask.getResult().isEmpty()) {
+                                        List<DocumentSnapshot> chatDocumentsToDelete = chatTask.getResult().getDocuments();
+                                        for (DocumentSnapshot documentSnapshot : chatDocumentsToDelete) {
+                                            batch.delete(documentSnapshot.getReference());
+                                        }
+                                    }
+
+                                    batch.commit().addOnSuccessListener(aVoid -> {
+                                        Toast.makeText(MainActivity.this, "Chat and messages deleted successfully", Toast.LENGTH_SHORT).show();
+                                        conversations.remove(chatMessage);
+                                        conversationsAdapter.notifyDataSetChanged();
+                                    }).addOnFailureListener(e -> {
+                                        Toast.makeText(MainActivity.this, "Failed to delete chat", Toast.LENGTH_SHORT).show();
+                                    });
+                                });
+                    } else {
+                        Toast.makeText(MainActivity.this, "No chat found", Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     @Override

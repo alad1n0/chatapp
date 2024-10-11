@@ -7,11 +7,15 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Base64;
+import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
+import com.example.myapplicationchat.R;
 import com.example.myapplicationchat.adapters.ChatAdapter;
 import com.example.myapplicationchat.databinding.ActivityChatBinding;
 import com.example.myapplicationchat.models.ChatMessage;
@@ -51,9 +55,17 @@ public class ChatActivity extends BaseActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        final Animation clickAnimation = AnimationUtils.loadAnimation(this, R.anim.button_click_animation);
+
         super.onCreate(savedInstanceState);
+
         binding = ActivityChatBinding.inflate(getLayoutInflater());
-        binding.buttonSelectImage.setOnClickListener(v -> selectImage());
+
+        binding.buttonSelectImage.setOnClickListener(v -> {
+            v.startAnimation(clickAnimation);
+            selectImage();
+        });
+
         setContentView(binding.getRoot());
         setListeners();
         loadReceiverDetails();
@@ -85,11 +97,8 @@ public class ChatActivity extends BaseActivity {
     }
 
     private void sendImageMessage(Bitmap bitmap) {
-        int previewWidth = 280;
-        int previewHeight = bitmap.getHeight() * previewWidth / bitmap.getWidth();
-        Bitmap previewBitmap = Bitmap.createScaledBitmap(bitmap, previewWidth, previewHeight, false);
         ByteArrayOutputStream byteArrayInputStream = new ByteArrayOutputStream();
-        previewBitmap.compress(Bitmap.CompressFormat.JPEG, 0, byteArrayInputStream);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayInputStream);
         byte[] bytesImage = byteArrayInputStream.toByteArray();
         sendMessage(Base64.encodeToString(bytesImage, Base64.DEFAULT), true);
     }
@@ -117,7 +126,11 @@ public class ChatActivity extends BaseActivity {
         database.collection(Constants.KEY_COLLECTION_CHAT).add(message);
 
         if (conversionId != null) {
-            updateConversion(content);
+            if (isImage) {
+                updateConversion("Send image");
+            } else {
+                updateConversion(content);
+            }
         } else {
             HashMap<String, Object> conversion = new HashMap<>();
             conversion.put(Constants.KEY_SENDER_ID, preferenceManager.getString(Constants.KEY_USER_ID));
@@ -283,8 +296,13 @@ public class ChatActivity extends BaseActivity {
     }
 
     private void setListeners() {
+        final Animation clickAnimation = AnimationUtils.loadAnimation(this, R.anim.button_click_animation);
+
         binding.imageBack.setOnClickListener(v -> onBackPressed());
-        binding.layoutSend.setOnClickListener(v -> sendMessage());
+        binding.layoutSend.setOnClickListener(v -> {
+            v.startAnimation(clickAnimation);
+            sendMessage();
+        });
     }
 
     private String gatReadableDateTime(Date date) {

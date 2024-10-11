@@ -1,14 +1,20 @@
 package com.example.myapplicationchat.adapters;
 
+import android.app.AlertDialog;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.util.Base64;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.myapplicationchat.R;
+import com.example.myapplicationchat.activities.MainActivity;
 import com.example.myapplicationchat.databinding.ItemContainerRecentConversionBinding;
 import com.example.myapplicationchat.listeners.ConversionListener;
 import com.example.myapplicationchat.models.ChatMessage;
@@ -31,9 +37,7 @@ public class RecentConversationsAdapter extends RecyclerView.Adapter<RecentConve
     public ConversationViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new ConversationViewHolder(
                 ItemContainerRecentConversionBinding.inflate(
-                        LayoutInflater.from(parent.getContext()),
-                        parent,
-                        false
+                        LayoutInflater.from(parent.getContext()), parent, false
                 )
         );
     }
@@ -68,11 +72,30 @@ public class RecentConversationsAdapter extends RecyclerView.Adapter<RecentConve
                 user.image = chatMessage.conversionImage;
                 conversionListener.onConversionClicked(user);
             });
-        }
-    }
 
-    private Bitmap getConversionImage(String encodedImage) {
-        byte[] bytes = Base64.decode(encodedImage, Base64.DEFAULT);
-        return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+            binding.getRoot().setOnLongClickListener(v -> {
+                AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+                View dialogView = LayoutInflater.from(v.getContext()).inflate(R.layout.dialog_custom_delete_chat, null);
+                builder.setView(dialogView);
+                AlertDialog alertDialog = builder.create();
+                alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialogView.findViewById(R.id.button_yes).setOnClickListener(view -> {
+                    ((MainActivity) v.getContext()).deleteConversation(chatMessage);
+                    alertDialog.dismiss();
+                });
+                dialogView.findViewById(R.id.button_no).setOnClickListener(view -> {
+                    alertDialog.dismiss();
+                });
+
+                alertDialog.show();
+
+                return true;
+            });
+        }
+
+        private Bitmap getConversionImage(String encodedImage) {
+            byte[] bytes = Base64.decode(encodedImage, Base64.DEFAULT);
+            return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+        }
     }
 }
