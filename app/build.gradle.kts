@@ -64,4 +64,5 @@ dependencies {
 
     // Material Design
     implementation(libs.material.v130alpha03)
+    implementation(libs.cardview)
 }

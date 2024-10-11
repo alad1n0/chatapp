@@ -143,12 +143,6 @@ public class MainActivity extends BaseActivity implements ConversionListener {
                         chatMessage.conversionId = documentChange.getDocument().getString(Constants.KEY_SENDER_ID);
                     }
                     chatMessage.message = documentChange.getDocument().getString(Constants.KEY_LAST_MESSAGE);
-
-                    Boolean isImageValue = documentChange.getDocument().getBoolean(Constants.KEY_IS_IMAGE);
-                    chatMessage.isImage = (isImageValue != null) ? isImageValue : false;
-
-                    Log.d("RecentConversationsAdapter", "Is Image: " + chatMessage.isImage);
-
                     chatMessage.dateObject = documentChange.getDocument().getDate(Constants.KEY_TIMESTAMP);
                     conversations.add(chatMessage);
                 } else if (documentChange.getType() == DocumentChange.Type.MODIFIED) {

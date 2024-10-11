@@ -85,11 +85,13 @@ public class ChatActivity extends BaseActivity {
     }
 
     private void sendImageMessage(Bitmap bitmap) {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 50, baos);
-        byte[] data = baos.toByteArray();
-        String encodedImage = Base64.encodeToString(data, Base64.DEFAULT);
-        sendMessage(encodedImage, true);
+        int previewWidth = 280;
+        int previewHeight = bitmap.getHeight() * previewWidth / bitmap.getWidth();
+        Bitmap previewBitmap = Bitmap.createScaledBitmap(bitmap, previewWidth, previewHeight, false);
+        ByteArrayOutputStream byteArrayInputStream = new ByteArrayOutputStream();
+        previewBitmap.compress(Bitmap.CompressFormat.JPEG, 0, byteArrayInputStream);
+        byte[] bytesImage = byteArrayInputStream.toByteArray();
+        sendMessage(Base64.encodeToString(bytesImage, Base64.DEFAULT), true);
     }
 
     private void init() {
@@ -124,7 +126,8 @@ public class ChatActivity extends BaseActivity {
             conversion.put(Constants.KEY_RECEIVER_ID, receiverUser.id);
             conversion.put(Constants.KEY_RECEIVER_NAME, receiverUser.name);
             conversion.put(Constants.KEY_RECEIVER_IMAGE, receiverUser.image);
-            conversion.put(Constants.KEY_LAST_MESSAGE, content);
+            conversion.put(Constants.KEY_LAST_MESSAGE, isImage ? "Send image" : content);
+            conversion.put(Constants.KEY_IS_IMAGE, isImage);
             conversion.put(Constants.KEY_TIMESTAMP, new Date());
             addConversion(conversion);
         }
@@ -144,6 +147,7 @@ public class ChatActivity extends BaseActivity {
         message.put(Constants.KEY_SENDER_ID, preferenceManager.getString(Constants.KEY_USER_ID));
         message.put(Constants.KEY_RECEIVER_ID, receiverUser.id);
         message.put(Constants.KEY_MESSAGE, inputMessage);
+        message.put(Constants.KEY_IS_IMAGE, false);
         message.put(Constants.KEY_TIMESTAMP, new Date());
 
         database.collection(Constants.KEY_COLLECTION_CHAT).add(message);
@@ -159,6 +163,7 @@ public class ChatActivity extends BaseActivity {
             conversion.put(Constants.KEY_RECEIVER_NAME, receiverUser.name);
             conversion.put(Constants.KEY_RECEIVER_IMAGE, receiverUser.image);
             conversion.put(Constants.KEY_LAST_MESSAGE, inputMessage);
+            conversion.put(Constants.KEY_IS_IMAGE, false);
             conversion.put(Constants.KEY_TIMESTAMP, new Date());
             addConversion(conversion);
         }

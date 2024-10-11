@@ -104,7 +104,6 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             viewType = isImage ? VIEW_TYPE_IMAGE_RECEIVED : VIEW_TYPE_RECEIVED;
         }
 
-        Log.d("ChatAdapter", "Position: " + position + ", ViewType: " + viewType + " isImage " + isImage);
         return viewType;
     }
 
