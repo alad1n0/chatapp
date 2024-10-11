@@ -25,8 +25,6 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
@@ -39,7 +37,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
-import java.util.UUID;
 
 public class ChatActivity extends BaseActivity {
 
@@ -91,14 +88,8 @@ public class ChatActivity extends BaseActivity {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 50, baos);
         byte[] data = baos.toByteArray();
-
-        StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("images/" + UUID.randomUUID().toString());
-        storageReference.putBytes(data)
-                .addOnSuccessListener(taskSnapshot -> storageReference.getDownloadUrl().addOnSuccessListener(uri -> {
-                    String imageUrl = uri.toString();
-                    sendMessage(imageUrl, true);
-                }))
-                .addOnFailureListener(e -> Toast.makeText(getApplicationContext(), "Failed to upload image", Toast.LENGTH_SHORT).show());
+        String encodedImage = Base64.encodeToString(data, Base64.DEFAULT);
+        sendMessage(encodedImage, true);
     }
 
     private void init() {
@@ -255,10 +246,13 @@ public class ChatActivity extends BaseActivity {
                     newMessage.message = documentChange.getDocument().getString(Constants.KEY_MESSAGE);
                     newMessage.dateTime = gatReadableDateTime(documentChange.getDocument().getDate(Constants.KEY_TIMESTAMP));
                     newMessage.dateObject = documentChange.getDocument().getDate(Constants.KEY_TIMESTAMP);
+                    Boolean isImageValue = documentChange.getDocument().getBoolean(Constants.KEY_IS_IMAGE);
+                    newMessage.isImage = (isImageValue != null) ? isImageValue : false;
                     chatMessage.add(newMessage);
                 }
             }
             Collections.sort(chatMessage, (obj1, obj2) -> obj1.dateObject.compareTo(obj2.dateObject));
+
             if (count == 0) {
                 chatAdapter.notifyDataSetChanged();
             } else {

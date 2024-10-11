@@ -1,8 +1,10 @@
 package com.example.myapplicationchat.adapters;
 
+import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -60,7 +62,11 @@ public class RecentConversationsAdapter extends RecyclerView.Adapter<RecentConve
         void setData(ChatMessage chatMessage) {
             binding.imageProfile.setImageBitmap(getConversionImage(chatMessage.conversionImage));
             binding.textName.setText(chatMessage.conversionName);
-            binding.textRecentMessage.setText(chatMessage.message);
+            if (chatMessage.isImage) {
+                binding.textRecentMessage.setText("Send image");
+            } else {
+                binding.textRecentMessage.setText(chatMessage.message);
+            }
             binding.getRoot().setOnClickListener(v -> {
                 User user = new User();
                 user.id = chatMessage.conversionId;
